@@ -69,8 +69,20 @@ void loop() {
 
   Serial.println(brightness2);
 
-  DmxSimple.write(2, brightness);
-  DmxSimple.write(4, brightness2);
+//  Fade whole bar between red and blue
+//  DmxSimple.write(2, brightness);
+//  DmxSimple.write(4, brightness2);
+
+
+//Fade each 1/3 that is alternating between red and blue
+  DmxSimple.write(5, brightness);
+  DmxSimple.write(7, brightness2);
+
+  DmxSimple.write(8, brightness2);
+  DmxSimple.write(10, brightness);
+
+  DmxSimple.write(11, brightness);
+  DmxSimple.write(13, brightness2);
   
   //  This looks for control values from the serial 
   //  while(!Serial.available());
