@@ -16,16 +16,6 @@
 
 #include <DmxSimple.h>
 
-void setup() {
-  Serial.begin(9600);
-  Serial.println("SerialToDmx ready");
-  Serial.println();
-  Serial.println("Syntax:");
-  Serial.println(" 123c : use DMX channel 123");
-  Serial.println(" 45w  : set current channel to value 45");
-  DmxSimple.usePin(7);
-}
-
 int value = 0;
 int channel;
 float in, out;
@@ -36,52 +26,58 @@ int brightness2 = 255;    // how bright the LED is
 int fadeAmount = 5;    // how many points to fade the LED by
 int fadeAmount2 = 5;    // how many points to fade the LED by
 
-const int CHNL = 2;
+void setup() {
+  Serial.begin(9600);
+  Serial.println("SerialToDmx ready");
+  Serial.println();
+  Serial.println("Syntax:");
+  Serial.println(" 123c : use DMX channel 123");
+  Serial.println(" 45w  : set current channel to value 45");
+  DmxSimple.usePin(7);
+}
 
 void loop() {
   int c;
 
-
-//  for (in = 0; in < 6.283; in = in + 0.001)
-//for (in = 0; in < 6.283; in = in + )
-//  {
-//    out = sin(in) * 127.5 + 127.5;
-//    cast = (int) out;
-//    DmxSimple.write(2, out);
-//    Serial.println("CHNL");
-//    Serial.print(CHNL);
-//    Serial.println("cast");
-//    Serial.print(cast);
-//  }
-
-brightness = brightness + fadeAmount;
-
+  // This fades all channels on and off so fades white light
+  brightness = brightness + fadeAmount;
+  
   // reverse the direction of the fading at the ends of the fade:
-if (brightness == 0 || brightness == 255) {
-  fadeAmount = -fadeAmount ;
-}
+  if (brightness == 0 || brightness == 255) {
+    fadeAmount = -fadeAmount;
+  }
+  
+  DmxSimple.write(2, brightness);
+  DmxSimple.write(3, brightness);
+  DmxSimple.write(4, brightness);
 
-if (brightness2 == 0 || brightness2 == 255) {
-  fadeAmount2 = -fadeAmount2 ;
-}
-
-DmxSimple.write(2, brightness);
-DmxSimple.write(4, brightness2);
-
-
-//  while(!Serial.available());
-//  c = Serial.read();
-//  if ((c>='0') && (c<='9')) {
-//    value = 10*value + c - '0';
-//  } else {
-//    if (c=='c') channel = value;
-//    else if (c=='w') {
-////      DmxSimple.write(channel, value);
-//      Serial.println();
-//    }
-//    value = 0;
+//  Second Example
+//  // reverse the direction of the fading at the ends of the fade:
+//  if (brightness == 0 || brightness == 255) {
+//    fadeAmount = -fadeAmount;
 //  }
-
-delay(30);
+//  
+//  if (brightness2 == 0 || brightness2 == 255) {
+//    fadeAmount2 = -fadeAmount2;
+//  }
+//  
+//  DmxSimple.write(2, brightness);
+  //DmxSimple.write(4, brightness2);
+  
+  //  This looks for control values from the serial 
+  //  while(!Serial.available());
+  //  c = Serial.read();
+  //  if ((c>='0') && (c<='9')) {
+  //    value = 10*value + c - '0';
+  //  } else {
+  //    if (c=='c') channel = value;
+  //    else if (c=='w') {
+  ////      DmxSimple.write(channel, value);
+  //      Serial.println();
+  //    }
+  //    value = 0;
+  //  }
+  
+  delay(30);
 }
 
